@@ -30,11 +30,13 @@ create table player_parts
 
 create table rounds
 (
-    id        bigint      not null auto_increment,
-    round_id  int         not null,
-    player_id varchar(16) not null,
-    part      int         not null,
-    submitted bool        not null,
+    id         bigint      not null auto_increment,
+    round_id   int         not null,
+    included   bool        not null,
+
+    status     int         not null,
+    created_at datetime(3) not null,
+    updated_at datetime(3) not null,
 
     primary key (id)
 );

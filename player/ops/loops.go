@@ -16,13 +16,14 @@ import (
 	"github.com/luno/reflex/rpatterns"
 
 	"bigsmoke-unsure/player/db/cursors"
+	"bigsmoke-unsure/player/db/rounds"
 	"bigsmoke-unsure/player/state"
 )
 
 func StartLoops(s *state.S) {
-	//go startMatchForever(s)
-	//go consumeEngineForever(s)
-	//go logHeadForever(s)
+	go startMatchForever(s)
+	go consumeEngineForever(s)
+	go logHeadForever(s)
 	go logPlayersForever(s)
 }
 
@@ -44,7 +45,7 @@ func logPlayersForever(s *state.S) {
 				log.Info(ctx, fmt.Sprintf("rank %d part %d", res.Rank, res.Part))
 			}
 		}
-		time.Sleep(time.Second)
+		time.Sleep(10 * time.Second)
 	}
 }
 
@@ -93,12 +94,22 @@ func startMatchForever(s *state.S) {
 	}
 }
 
-func consumeEngineForever(s *state.S)  {
+func consumeEngineForever(s *state.S) {
 	cs := cursors.ToStore(s.SmokeDB().DB)
 	c := reflex.NewConsumable(s.EngineClient().Stream, cs)
-	rpatterns.ConsumeForever(unsure.FatedContext, c.Consume, reflex.NewConsumer("first", EngineConsume))
-}
 
-func EngineConsume(ctx context.Context, fate fate.Fate, event *reflex.Event) error {
-	return fate.Tempt()
+	f := func(ctx context.Context, fate fate.Fate, event *reflex.Event) error {
+		log.Info(nil, "==== EVENT ====")
+		if reflex.IsAnyType(event.Type, engine.EventTypeMatchStarted, engine.EventTypeRoundJoin) {
+			log.Info(ctx, "==== HELLO ====")
+			err := rounds.Create(ctx, s.SmokeDB().DB, 1)
+			if err != nil {
+				return err
+			}
+		}
+
+		return fate.Tempt()
+	}
+
+	rpatterns.ConsumeForever(unsure.FatedContext, c.Consume, reflex.NewConsumer("first", f))
 }
