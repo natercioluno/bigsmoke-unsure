@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package loserpb;
+package player;
 
 service Player {
   rpc CollectRank (CollectRankReq) returns (CollectRankRes) {}

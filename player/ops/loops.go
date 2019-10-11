@@ -14,8 +14,8 @@ import (
 	"github.com/luno/reflex"
 	"github.com/luno/reflex/rpatterns"
 
-	"github.com/corverroos/play/db/cursors"
-	"github.com/corverroos/play/state"
+	"github.com/natercioluno/bigsmoke-unsure/player/db/cursors"
+	"github.com/natercioluno/bigsmoke-unsure/player/state"
 )
 
 var (
