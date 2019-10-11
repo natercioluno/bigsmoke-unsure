@@ -3,7 +3,7 @@ syntax = "proto3";
 package loserpb;
 
 service Player {
-    rpc CollectRank (CollectRankReq) returns (CollectRankRes) {}
+  rpc CollectRank (CollectRankReq) returns (CollectRankRes) {}
 }
 
 message CollectRankReq {
