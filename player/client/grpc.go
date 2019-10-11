@@ -1,36 +1,34 @@
 package client
 
 import (
+	"bigsmoke-unsure/player/config"
 	"context"
-	"flag"
 	"github.com/corverroos/unsure"
 	p "bigsmoke-unsure/player"
 	pb "bigsmoke-unsure/player/playerpb"
 	"google.golang.org/grpc"
 )
 
-var addr = flag.String("player_address", "", "host:port of player gRPC service")
+var _ p.Client = (*Client)(nil)
 
-var _ p.Client = (*client)(nil)
-
-type client struct {
+type Client struct {
 	address   string
 	rpcConn   *grpc.ClientConn
 	rpcClient pb.PlayerClient
 }
 
 
-type option func(*client)
+type option func(*Client)
 
 func WithAddress(address string) option {
-	return func(c *client) {
+	return func(c *Client) {
 		c.address = address
 	}
 }
 
-func New(opts ...option) (*client, error) {
-	c := client{
-		address: *addr,
+func New(opts ...option) (*Client, error) {
+	c := Client{
+		address: config.Address(),
 	}
 	for _, o := range opts {
 		o(&c)
@@ -47,7 +45,7 @@ func New(opts ...option) (*client, error) {
 	return &c, nil
 }
 
-func (c *client) CollectRank(ctx context.Context, roundID int64, player string) (*p.CollectRankRes, error) {
+func (c *Client) CollectRank(ctx context.Context, roundID int64, player string) (*p.CollectRankRes, error) {
 	res, err := c.rpcClient.CollectRank(ctx, &pb.CollectRankReq {
 		RoundId: roundID,
 		Player:  player,
@@ -62,4 +60,3 @@ func (c *client) CollectRank(ctx context.Context, roundID int64, player string) 
 		Part: res.Part,
 	}, nil
 }
-

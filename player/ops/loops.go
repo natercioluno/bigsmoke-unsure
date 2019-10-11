@@ -1,8 +1,9 @@
 package ops
 
 import (
+	"bigsmoke-unsure/player/config"
 	"context"
-	"flag"
+	"fmt"
 	"time"
 
 	"github.com/corverroos/unsure"
@@ -18,16 +19,33 @@ import (
 	"bigsmoke-unsure/player/state"
 )
 
-var (
-	team    = flag.String("team", "bigsmoke", "team name")
-	player  = flag.String("player", "smoker", "player name")
-	players = flag.Int("players", 4, "number of players in the team")
-)
-
 func StartLoops(s *state.S) {
-	go startMatchForever(s)
-	go consumeEngineForever(s)
-	go logHeadForever(s)
+	//go startMatchForever(s)
+	//go consumeEngineForever(s)
+	//go logHeadForever(s)
+	go logPlayersForever(s)
+}
+
+func logPlayersForever(s *state.S) {
+
+	ctx := unsure.FatedContext()
+
+	for {
+		for key, value := range s.PlayerClients() {
+			if key == config.Player() {
+				continue
+			}
+
+			log.Info(ctx, "player" + key)
+			res, err := value.CollectRank(ctx, 0, config.Player())
+			if err != nil {
+				log.Error(ctx, err)
+			} else {
+				log.Info(ctx, fmt.Sprintf("rank %d part %d", res.Rank, res.Part))
+			}
+		}
+		time.Sleep(time.Second)
+	}
 }
 
 func logHeadForever(s *state.S) {
@@ -59,7 +77,7 @@ func startMatchForever(s *state.S) {
 	for {
 		ctx := unsure.ContextWithFate(context.Background(), unsure.DefaultFateP())
 
-		err := s.EngineClient().StartMatch(ctx, *team, *players)
+		err := s.EngineClient().StartMatch(ctx, config.Team(), config.Players())
 
 		if errors.Is(err, engine.ErrActiveMatch) {
 			// Match active, just ignore
