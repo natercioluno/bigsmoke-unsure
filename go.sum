@@ -9,8 +9,8 @@ github.com/beorn7/perks v1.0.0/go.mod h1:KWe93zE9D1o94FZ5RNwFwVgaQK1VOXiVxmqh+Ce
 github.com/beorn7/perks v1.0.1 h1:VlbKKnNfV8bJzeqoa4cOKqO6bYr3WgKZxO8Z16+hsOM=
 github.com/beorn7/perks v1.0.1/go.mod h1:G2ZrVWU2WbWT9wwq4/hrbKbnv/1ERSJQ0ibhJ6rlkpw=
 github.com/client9/misspell v0.3.4/go.mod h1:qj6jICC3Q7zFZvVWo7KLAzC3yx5G7kyvSDkc90ppPyw=
-github.com/corverroos/unsure v0.0.0-20191011064840-483d082570f4 h1:+0fVB5w0S4qqvVH9r/tMOZXu3wPRVVTu67Go0UeSIzc=
-github.com/corverroos/unsure v0.0.0-20191011064840-483d082570f4/go.mod h1:W03xFdAvsSpf4Vx7w/cid3URIKCmTnxSfqFgJgdNSVU=
+github.com/corverroos/unsure v0.0.0-20191011103334-32cbd83590a8 h1:FZU8Gn/HCpgHoB63Og/+NQOsApDq0l6IUV/UStzvPlQ=
+github.com/corverroos/unsure v0.0.0-20191011103334-32cbd83590a8/go.mod h1:W03xFdAvsSpf4Vx7w/cid3URIKCmTnxSfqFgJgdNSVU=
 github.com/dave/dst v0.23.1/go.mod h1:LjPcLEauK4jC5hQ1fE/wr05O41zK91Pr4Qs22Ljq7gs=
 github.com/dave/gopackages v0.0.0-20170318123100-46e7023ec56e/go.mod h1:i00+b/gKdIDIxuLDFob7ustLAVqhsZRk2qVZrArELGQ=
 github.com/dave/jennifer v1.2.0/go.mod h1:fIb+770HOpJ2fmN9EPPKOqm1vMGhB+TwXKMZhrIygKg=
