@@ -1,6 +1,7 @@
 package cursors
 
 import (
+	"github.com/natercioluno/bigsmoke-unsure/player"
 	"testing"
 
 	"github.com/corverroos/unsure"
@@ -14,5 +15,5 @@ func TestCursorsTable(t *testing.T) {
 	dbc := db.ConnectForTesting(t)
 	defer dbc.Close()
 
-	rsql.TestCursorsTable(t, dbc, cursors)
+	rsql.TestCursorsTable(t, dbc, player.cursors)
 }
