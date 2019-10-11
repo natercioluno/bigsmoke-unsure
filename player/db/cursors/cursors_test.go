@@ -1,7 +1,7 @@
 package cursors
 
 import (
-	"github.com/natercioluno/bigsmoke-unsure/player"
+	"bigsmoke-unsure/player"
 	"testing"
 
 	"github.com/corverroos/unsure"

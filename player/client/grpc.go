@@ -4,8 +4,8 @@ import (
 	"context"
 	"flag"
 	"github.com/corverroos/unsure"
-	p "github.com/natercioluno/bigsmoke-unsure/player"
-	pb "github.com/natercioluno/bigsmoke-unsure/player/playerpb"
+	p "bigsmoke-unsure/player"
+	pb "bigsmoke-unsure/player/playerpb"
 	"google.golang.org/grpc"
 )
 

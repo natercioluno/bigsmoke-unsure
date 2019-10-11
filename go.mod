@@ -1,4 +1,4 @@
-module github.com/natercioluno/bigsmoke-unsure
+module bigsmoke-unsure
 
 go 1.12
 

@@ -4,7 +4,7 @@ import (
 	"github.com/corverroos/unsure/engine"
 	ec "github.com/corverroos/unsure/engine/client"
 
-	"github.com/natercioluno/bigsmoke-unsure/player/db"
+	"bigsmoke-unsure/player/db"
 )
 
 type S struct {
