@@ -23,11 +23,11 @@ func (一 join) Insert(ctx context.Context, tx *sql.Tx,st shift.Status) (int64, 
 	q.WriteString("insert into rounds set status=?, created_at=?, updated_at=? ")
 	args = append(args, st.Enum(), time.Now(), time.Now())
 
-	q.WriteString(", round_id=?")
-	args = append(args, 一.roundID)
+	q.WriteString(", round=?")
+	args = append(args, 一.Round)
 
 	q.WriteString(", included=?")
-	args = append(args, 一.included)
+	args = append(args, 一.Included)
 
 	res, err := tx.ExecContext(ctx, q.String(), args...)
 	if err != nil {
@@ -42,9 +42,9 @@ func (一 join) Insert(ctx context.Context, tx *sql.Tx,st shift.Status) (int64, 
 }
 
 // Update updates the status of a rounds table entity. All the fields of the
-// playersReady receiver are updated, as well as status and updated_at. 
+// collectReq receiver are updated, as well as status and updated_at. 
 // The entity id is returned on success or an error.
-func (一 playersReady) Update(ctx context.Context, tx *sql.Tx,from shift.Status, 
+func (一 collectReq) Update(ctx context.Context, tx *sql.Tx,from shift.Status, 
 	to shift.Status) (int64, error) {
 	var (
 		q    strings.Builder
@@ -53,9 +53,6 @@ func (一 playersReady) Update(ctx context.Context, tx *sql.Tx,from shift.Status
 
 	q.WriteString("update rounds set status=?, updated_at=? ")
 	args = append(args, to.Enum(), time.Now())
-
-	q.WriteString(", match_id=?")
-	args = append(args, 一.MatchID)
 
 	q.WriteString(" where id=? and status=?")
 	args = append(args, 一.ID, from.Enum())

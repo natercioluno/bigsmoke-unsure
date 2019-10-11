@@ -31,7 +31,7 @@ create table player_parts
 create table rounds
 (
     id         bigint      not null auto_increment,
-    round_id   int         not null,
+    round      int         not null,
     included   bool        not null,
 
     status     int         not null,

@@ -1,10 +1,13 @@
 package ops
 
 import (
-	"bigsmoke-unsure/player/config"
 	"context"
 	"fmt"
+	"strconv"
 	"time"
+
+	"bigsmoke-unsure/player/config"
+	"bigsmoke-unsure/player/db/rounds"
 
 	"github.com/corverroos/unsure"
 	"github.com/corverroos/unsure/engine"
@@ -16,7 +19,6 @@ import (
 	"github.com/luno/reflex/rpatterns"
 
 	"bigsmoke-unsure/player/db/cursors"
-	"bigsmoke-unsure/player/db/rounds"
 	"bigsmoke-unsure/player/state"
 )
 
@@ -100,11 +102,13 @@ func consumeEngineForever(s *state.S) {
 
 	f := func(ctx context.Context, fate fate.Fate, event *reflex.Event) error {
 		log.Info(nil, "==== EVENT ====")
-		if reflex.IsAnyType(event.Type, engine.EventTypeMatchStarted, engine.EventTypeRoundJoin) {
-			log.Info(ctx, "==== HELLO ====")
-			err := rounds.Create(ctx, s.SmokeDB().DB, 1)
-			if err != nil {
-				return err
+		if reflex.IsAnyType(event.Type, engine.EventTypeRoundJoin) {
+			//create round "join"
+			e := joinRound(event, s, ctx)
+
+			//included  OR excluded
+			if e != nil {
+				return e
 			}
 		}
 
@@ -112,4 +116,43 @@ func consumeEngineForever(s *state.S) {
 	}
 
 	rpatterns.ConsumeForever(unsure.FatedContext, c.Consume, reflex.NewConsumer("first", f))
+}
+
+func joinRound(event *reflex.Event, s *state.S, ctx context.Context) error {
+	round, err := strconv.ParseInt(event.ForeignID, 10, 64)
+	if err != nil {
+		return err
+	}
+
+	err = rounds.Create(ctx, s.SmokeDB().DB, round)
+	if err != nil {
+		return err
+	}
+
+	included, err := s.EngineClient().JoinRound(ctx, config.Team(), config.Player(), round)
+	if errors.Is(err, engine.ErrAlreadyJoined) {
+		included = true
+	}
+	if errors.Is(err, engine.ErrAlreadyExcluded) {
+		included = false
+	}
+	if err != nil {
+		return err
+	}
+	if included {
+		//Update to included
+		err = rounds.Included(ctx, s.SmokeDB().DB, round)
+		if err != nil {
+			return err
+		}
+
+		return nil
+	}
+
+	err = rounds.Excluded(ctx, s.SmokeDB().DB, round)
+	if err != nil {
+		return err
+	}
+
+	return nil
 }

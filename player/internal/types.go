@@ -13,10 +13,11 @@ func (rs RoundStatus) ReflexType() int {
 }
 
 const (
-	RoundStatusUnknown  RoundStatus = 0
-	RoundStatusJoin     RoundStatus = 1
-	RoundStatusIncluded RoundStatus = 2
-	RoundStatusExcluded RoundStatus = 3
-	roundStatusSentinel RoundStatus = 9
+	RoundStatusUnknown  RoundStatus = iota
+	RoundStatusJoin
+	RoundStatusIncluded
+	RoundStatusExcluded
+	RoundStatusCollect
+	roundStatusSentinel
 )
 

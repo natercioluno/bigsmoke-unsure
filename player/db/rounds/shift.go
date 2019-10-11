@@ -7,18 +7,18 @@ import (
 	"bigsmoke-unsure/player/internal"
 )
 
-//go:generate shiftgen -inserter=join -updaters=playersReady -table=rounds
+//go:generate shiftgen -inserter=join -updaters=collectReq -table=rounds
 
 var fsm = shift.NewFSM(rsql.NewEventsTableInt("smoke_events")).
 	Insert(internal.RoundStatusJoin, join{}, internal.RoundStatusIncluded, internal.RoundStatusExcluded).
+	Update(internal.RoundStatusIncluded, collectReq{}, internal.RoundStatusCollect).
 	Build()
 
 type join struct {
-	roundID  int64
-	included bool
+	Round    int64
+	Included bool
 }
 
-type playersReady struct {
-	ID      int64
-	MatchID int64
+type collectReq struct {
+	ID int64
 }
