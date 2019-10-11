@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package loserpb;
+
+service Player {
+    rpc CollectRank (CollectRankReq) returns (CollectRankRes) {}
+}
+
+message CollectRankReq {
+    int64 round_id = 1;
+    string player = 2;
+}
+
+message CollectRankRes {
+    int64 rank = 1;
+    int64 part = 2;
+}
