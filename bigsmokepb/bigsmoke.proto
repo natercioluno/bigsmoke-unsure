@@ -7,11 +7,11 @@ service Player {
 }
 
 message CollectRankReq {
-    int64 round_id = 1;
-    string player = 2;
+  int64 round_id = 1;
+  string player = 2;
 }
 
 message CollectRankRes {
-    int64 rank = 1;
-    int64 part = 2;
+  int64 rank = 1;
+  int64 part = 2;
 }
