@@ -33,7 +33,7 @@ func serveGRPCForever(s *state.S) {
 		unsure.Fatal(errors.Wrap(err, "new grpctls server"))
 	}
 
-	server := server.New()
+	server := server.New(s)
 	player.RegisterPlayerServer(grpcServer.GRPCServer(), server)
 
 	unsure.RegisterNoErr(func() {
