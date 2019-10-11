@@ -4,8 +4,8 @@ import (
 	"github.com/corverroos/unsure"
 	"github.com/luno/jettison/errors"
 
-	"github.com/corverroos/play/ops"
-	"github.com/corverroos/play/state"
+	"bigsmoke-unsure/player/ops"
+	"bigsmoke-unsure/player/state"
 )
 
 func main() {
