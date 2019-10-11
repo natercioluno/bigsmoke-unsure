@@ -71,7 +71,7 @@ func startMatchForever(s *state.S) {
 			return
 		}
 
-		time.Sleep(time.Minute)
+		time.Sleep(time.Second)
 	}
 }
 

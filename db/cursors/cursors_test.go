@@ -4,8 +4,9 @@ import (
 	"testing"
 
 	"github.com/corverroos/unsure"
-	"github.com/corverroos/unsure/engine/db"
 	"github.com/luno/reflex/rsql"
+
+	"github.com/corverroos/play/db"
 )
 
 func TestCursorsTable(t *testing.T) {
